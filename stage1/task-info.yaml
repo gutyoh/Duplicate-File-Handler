@@ -192,5 +192,5 @@ files:
   visible: true
 - name: hstest/check_result.py
   visible: true
-- name: main.py
+- name: main.go
   visible: true

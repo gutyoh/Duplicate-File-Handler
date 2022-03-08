@@ -2,3 +2,5 @@ type: edu
 files:
 - name: tests.py
   visible: false
+- name: main.go
+  visible: true
