@@ -47,7 +47,7 @@ files = {
                         'content': 'd2c2ee4cbb368731f1a5399015160d7d_1'}
 }
 
-root_dir_path = os.path.join('module', 'root_folder')
+root_dir_path = os.path.join('module', 'temp/root_folder')
 
 
 def create_files(path):

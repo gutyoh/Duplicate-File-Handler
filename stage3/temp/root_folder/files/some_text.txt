@@ -1,0 +1,704 @@
+C:\Users\mrgut\.virtualenvs\Duplicate-File-Handler\Scripts\python.exe C:/Users/mrgut/GolandProjects/Duplicate-File-Handler/stage3/tests.py
+
+Start test 1
+Directory is not specified
+
+Start test 2
+Enter file format:
+
+Start test 3
+Enter file format:
+> csv
+Size sorting options:
+1. Descending
+2. Ascending
+> 3
+Wrong option
+Size sorting options:
+1. Descending
+2. Ascending
+
+Start test 4
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+
+Start test 5
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+
+Start test 6
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+
+Start test 7
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+
+Start test 8
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+
+Start test 9
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 1
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+Check for duplicates?
+
+Start test 10
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+
+Start test 11
+Enter file format:
+> csv
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+Check for duplicates?
+
+Start test 12
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+> yes
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+1. module\root_folder\lost.json
+2. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+3. module\root_folder\phones.csv
+4. module\root_folder\calc\bikeshare.csv
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+5. module\root_folder\python.txt
+6. module\root_folder\project\python_copy.txt
+
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+7. module\root_folder\info.txt
+8. module\root_folder\files\some_text.txt
+
+
+Start test 13
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+> yes
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+1. module\root_folder\lost.json
+2. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+3. module\root_folder\phones.csv
+4. module\root_folder\calc\bikeshare.csv
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+5. module\root_folder\python.txt
+6. module\root_folder\project\python_copy.txt
+
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+7. module\root_folder\info.txt
+8. module\root_folder\files\some_text.txt
+
+
+Start test 14
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+> yes
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+1. module\root_folder\lost.json
+2. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+3. module\root_folder\phones.csv
+4. module\root_folder\calc\bikeshare.csv
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+5. module\root_folder\python.txt
+6. module\root_folder\project\python_copy.txt
+
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+7. module\root_folder\info.txt
+8. module\root_folder\files\some_text.txt
+
+
+Start test 15
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 2
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+Check for duplicates?
+> yes
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+1. module\root_folder\lost.json
+2. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+3. module\root_folder\phones.csv
+4. module\root_folder\calc\bikeshare.csv
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+5. module\root_folder\python.txt
+6. module\root_folder\project\python_copy.txt
+
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+7. module\root_folder\info.txt
+8. module\root_folder\files\some_text.txt
+
+
+Start test 16
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 1
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+Check for duplicates?
+> yes
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+1. module\root_folder\info.txt
+2. module\root_folder\files\some_text.txt
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+3. module\root_folder\python.txt
+4. module\root_folder\project\python_copy.txt
+
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+5. module\root_folder\lost.json
+6. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+7. module\root_folder\phones.csv
+8. module\root_folder\calc\bikeshare.csv
+
+
+Start test 17
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 1
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+Check for duplicates?
+> yes
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+1. module\root_folder\info.txt
+2. module\root_folder\files\some_text.txt
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+3. module\root_folder\python.txt
+4. module\root_folder\project\python_copy.txt
+
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+5. module\root_folder\lost.json
+6. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+7. module\root_folder\phones.csv
+8. module\root_folder\calc\bikeshare.csv
+
+
+Start test 18
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 1
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+Check for duplicates?
+> yes
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+1. module\root_folder\info.txt
+2. module\root_folder\files\some_text.txt
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+3. module\root_folder\python.txt
+4. module\root_folder\project\python_copy.txt
+
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+5. module\root_folder\lost.json
+6. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+7. module\root_folder\phones.csv
+8. module\root_folder\calc\bikeshare.csv
+
+
+Start test 19
+Enter file format:
+> 
+Size sorting options:
+1. Descending
+2. Ascending
+> 1
+35 bytes
+module\root_folder\info.txt
+module\root_folder\files\some_text.txt
+
+34 bytes
+module\root_folder\python.txt
+module\root_folder\files\stage\src\src.txt
+module\root_folder\files\stage\src\toggleminimenu.js
+module\root_folder\project\extraversion.csv
+module\root_folder\project\index.html
+module\root_folder\project\python_copy.txt
+
+32 bytes
+module\root_folder\lost.json
+module\root_folder\phones.csv
+module\root_folder\calc\bikeshare.csv
+module\root_folder\calc\server.php
+module\root_folder\files\db_cities.js
+module\root_folder\files\stage\cars.json
+module\root_folder\files\stage\package-lock.json
+module\root_folder\files\stage\src\index.js
+module\root_folder\files\stage\src\libs.txt
+module\root_folder\files\stage\src\reviewslider.js
+module\root_folder\files\stage\src\spoiler.js
+
+Check for duplicates?
+> yes
+35 bytes
+Hash: d63a4f1856c5fa167b1aaa6529d9846f
+1. module\root_folder\info.txt
+2. module\root_folder\files\some_text.txt
+
+34 bytes
+Hash: a5ceea9b58986bc87fb85f999d76d9db
+3. module\root_folder\python.txt
+4. module\root_folder\project\python_copy.txt
+
+32 bytes
+Hash: 95708df6eb2d9e30c128cf14dcf91f5b
+5. module\root_folder\lost.json
+6. module\root_folder\files\stage\cars.json
+Hash: c2a5ad1655d8d46d7d699594c1ee0dec
+7. module\root_folder\phones.csv
+8. module\root_folder\calc\bikeshare.csv
+
+
+Start test 20
+Enter file format:
+> txt
+Size sorting options:
+1. Descending
+2. Ascending
+> 1
+Check for duplicates?
+> yes
+
+#educational_plugin test OK
+
+Process finished with exit code 0

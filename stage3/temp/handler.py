@@ -72,6 +72,7 @@ else:
                                 print(f"{counter}. {el}")
                                 counter += 1
                     print()
+                    print(same_hash)
             break
         else:
             print("Wrong option")

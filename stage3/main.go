@@ -1,7 +1,10 @@
 package main
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -102,23 +105,45 @@ func main() {
 			fmt.Println("Check for duplicates?")
 			fmt.Scanln(&answer)
 
-			sameHashMap := make(map[string][]string)
+			var sameHashMap = map[int]map[string][]string{} // create a map to store the files with the same size
 
 			if answer == "yes" || answer == "no" {
 				if answer == "yes" {
-					for size, li := range filesMap {
-						for i := 0; i < len(li); i++ {
-							for j := i + 1; j < len(li); j++ {
-								if sameHashMap[fileHash(li[i])] == nil {
-									sameHashMap[fileHash(li[i])] = append(sameHashMap[fileHash(li[i])], li[i])
-								}
-								if sameHashMap[fileHash(li[i])] != nil {
-									sameHashMap[fileHash(li[i])] = append(sameHashMap[fileHash(li[i])], li[j])
-								}
+					// create a md5 hash with md5.New() and calculate the hash for each file
+					// and store the file name and the hash in a map:
+					for _, k := range keys {
+						for _, v := range filesMap[k] {
+							file, err := os.Open(v)
+							if err != nil {
+								log.Fatal(err)
 							}
+							defer file.Close()
+
+							hash := md5.New()
+							if _, err := io.Copy(hash, file); err != nil {
+								log.Fatal(err)
+							}
+							hashInBytes := hash.Sum(nil)[:16]
+							hashInString := hex.EncodeToString(hashInBytes)
+
+							if sameHashMap[k] == nil {
+								sameHashMap[k] = make(map[string][]string)
+							}
+							sameHashMap[k][hashInString] = append(sameHashMap[k][hashInString], v)
 						}
 					}
-					
+					// print the hash first and then the files with the same hash:
+					for _, k := range keys {
+						for h, v := range sameHashMap[k] {
+							fmt.Println("Hash:", h)
+							for _, v2 := range v {
+								fmt.Println(v2)
+							}
+							fmt.Println()
+						}
+					}
+				} else {
+					break
 				}
 			}
 		}
