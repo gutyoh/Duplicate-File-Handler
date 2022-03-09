@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 var rev bool // global variable 'rev' to determine the sorting order based on SIZE of the files
@@ -136,6 +138,7 @@ func main() {
 					// iterate over the map and only print the files that have the same hash:
 					counter := 0
 					i := 0
+					var fileNums []int
 					for _, k := range keys {
 						fmt.Println(k, "bytes")
 						for h, v := range sameHashMap[k] {
@@ -147,6 +150,8 @@ func main() {
 									v[i] = c + ". " + v[i]
 									v2 = c + ". " + v2
 									fmt.Printf("%s\n", v2)
+
+									fileNums = append(fileNums, counter+1)
 									counter++
 									i++
 								}
@@ -155,11 +160,73 @@ func main() {
 							}
 						}
 					}
-					break
-				} else {
-					break
+
+					deletedFileSize := 0
+
+					fmt.Println("Delete files?")
+					fmt.Scanln(&answer)
+					if answer == "yes" || answer == "no" {
+						if answer == "yes" {
+							scanner := bufio.NewScanner(os.Stdin)
+							fmt.Println("Enter file numbers to delete:")
+							for {
+								scanner.Scan()
+								line := scanner.Text()
+								x, _ := strconv.Atoi(line)
+
+								if len(line) == 0 {
+									fmt.Println("Wrong format")
+									fmt.Println("Enter file numbers to delete:")
+									continue
+								} else if x == 0 {
+									inputSlice := strings.Split(line, " ")
+									inputSliceInts := make([]int, len(inputSlice))
+									for i, v := range inputSlice {
+										// if v is an integer then append it to the slice
+										if x, err := strconv.Atoi(v); err == nil {
+											inputSliceInts[i] = x
+										} else {
+											fmt.Println("Wrong format")
+											fmt.Println("Enter file numbers to delete:")
+											break
+										}
+									}
+									if contains(inputSliceInts, fileNums) {
+										for _, k := range keys {
+											for _, v := range sameHashMap[k] {
+												if len(v) > 1 {
+													for i := 0; i < len(fileNums); i++ {
+														// add to deletedFileSize the size of the file that is being deleted:
+														deletedFileSize += k
+														// trim the prefix at the beginning of the file name:
+														// close the file before deleting it
+														err := os.Remove(strings.TrimPrefix(v[i], strconv.Itoa(fileNums[i])+". "))
+														if err != nil {
+															log.Println(err)
+														}
+													}
+												}
+												fmt.Println("Total freed up space:", k, "bytes")
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
 	}
+}
+
+func contains(s []int, e []int) bool {
+	for _, a := range s {
+		for _, b := range e {
+			if a == b {
+				return true
+			}
+		}
+	}
+	return false
 }
