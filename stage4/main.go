@@ -46,6 +46,7 @@ func main() {
 		filesMap := make(map[int][]string) // create a map to store the file names and their sizes
 
 		dir := os.Args[1] // the directory is the second command line argument!
+		dir = strings.Join(os.Args[1:], " ")
 
 		// if the extension is NOT specified, then add all the files to the map
 		if len(extension) == 0 {
@@ -63,6 +64,7 @@ func main() {
 				log.Fatal(err)
 			}
 		} else { // if the extension is specified, then add only the files with the specified extension to the map
+			// fmt.Println("The EXTENSION is:", extension)
 			err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					log.Fatal(err)
@@ -70,7 +72,8 @@ func main() {
 				if info.IsDir() {
 					return nil
 				}
-				if filepath.Ext(path) == extension {
+				if filepath.Ext(path) == "."+extension {
+					// fmt.Println("Reading file:", path, "with extension:", extension)
 					filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
 				}
 				return nil
@@ -191,25 +194,52 @@ func main() {
 											break
 										}
 									}
+
+									// sort inputSliceInts
+									sort.Ints(inputSliceInts)
+
 									if contains(inputSliceInts, fileNums) {
+										cnt := 0
 										for _, k := range keys {
 											for _, v := range sameHashMap[k] {
 												if len(v) > 1 {
-													for i := 0; i < len(fileNums); i++ {
+													for i := 0; i < len(v); i++ {
 														// add to deletedFileSize the size of the file that is being deleted:
-														deletedFileSize += k
-														// trim the prefix at the beginning of the file name:
-														// close the file before deleting it
-														err := os.Remove(strings.TrimPrefix(v[i], strconv.Itoa(fileNums[i])+". "))
-														if err != nil {
-															log.Println(err)
+														if cnt == len(inputSliceInts) {
+															break
 														}
+
+														fNum := strings.Split(v[i], ".")
+
+														// if fNum is the same as the inputSliceInts then delete the file:
+														if fNum[0] == strconv.Itoa(inputSliceInts[cnt]) {
+															// to delete the file remove the prefix 1.:
+															fmt.Println("Attempting to DELETE: ", v[i])
+															fName := strings.TrimPrefix(v[i], fNum[0]+". ")
+
+															// get the file size in bytes of 'fName':
+															fileInfo, err := os.Stat(fName)
+															if err != nil {
+																fmt.Println(err)
+															}
+															deletedFileSize += int(fileInfo.Size())
+
+															err = os.Remove(fName)
+															if err != nil {
+																fmt.Println(err)
+															}
+														} else {
+															continue
+														}
+
+														cnt++
 													}
 												}
-												fmt.Println("Total freed up space:", k, "bytes")
 											}
 										}
 									}
+									fmt.Println("Total freed up space:", deletedFileSize, "bytes")
+									os.Exit(1)
 								}
 							}
 						}

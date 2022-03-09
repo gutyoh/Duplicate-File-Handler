@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 var rev bool // global variable 'rev' to determine the sorting order based on SIZE of the files
@@ -44,6 +45,7 @@ func main() {
 		filesMap := make(map[int][]string) // create a map to store the file names and their sizes
 
 		dir := os.Args[1] // the directory is the second command line argument!
+		dir = strings.Join(os.Args[1:], " ")
 
 		// if the extension is NOT specified, then add all the files to the map
 		if len(extension) == 0 {
@@ -68,7 +70,7 @@ func main() {
 				if info.IsDir() {
 					return nil
 				}
-				if filepath.Ext(path) == extension {
+				if filepath.Ext(path) == "."+extension {
 					filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
 				}
 				return nil

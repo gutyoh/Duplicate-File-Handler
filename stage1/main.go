@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func main() {
-	if len(os.Args) == 1 { // check if the only argument is the program file name 'main.go'
+	if len(os.Args) == 1 {
 		fmt.Println("Directory is not specified")
 	} else {
-		dir := os.Args[1] // the directory is the second command line argument!
+		dir := strings.Join(os.Args[1:], " ")
+		// use the 'Walk' function to read 'dir' and print all the files
 		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -23,7 +24,7 @@ func main() {
 			return nil
 		})
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 	}
 }
