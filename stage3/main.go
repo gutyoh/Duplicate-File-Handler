@@ -44,8 +44,7 @@ func main() {
 
 		filesMap := make(map[int][]string) // create a map to store the file names and their sizes
 
-		dir := os.Args[1] // the directory is the second command line argument!
-		dir = strings.Join(os.Args[1:], " ")
+		dir := strings.Join(os.Args[1:], " ") // the directory is the second command line argument!
 
 		// if the extension is NOT specified, then add all the files to the map
 		if len(extension) == 0 {

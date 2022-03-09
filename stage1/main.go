@@ -11,7 +11,7 @@ func main() {
 	if len(os.Args) == 1 {
 		fmt.Println("Directory is not specified")
 	} else {
-		dir := strings.Join(os.Args[1:], " ")
+		dir := strings.Join(os.Args[1:], " ") // the directory is the second command line argument!
 		// use the 'Walk' function to read 'dir' and print all the files
 		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
