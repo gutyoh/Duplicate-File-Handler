@@ -16,8 +16,15 @@ import (
 
 var rev bool // global variable 'rev' to determine the sorting order based on SIZE of the files
 
+// global "SET" possibleAns to check for "yes" or "no" input ONLY.
+var possibleAns = map[string]bool{
+	"yes": true,
+	"no":  false,
+}
+
 func getArgs(args []string) []string {
 	args = os.Args
+
 	if len(args) == 1 {
 		fmt.Println("Directory is not specified")
 		os.Exit(1)
@@ -25,7 +32,9 @@ func getArgs(args []string) []string {
 	return args
 }
 
-func getExtension(extension string) string {
+func getExtension() string {
+	var extension string
+
 	fmt.Println("Enter file format:")
 	fmt.Scanln(&extension)
 
@@ -36,8 +45,9 @@ func getExtension(extension string) string {
 	}
 }
 
-// getSortingOption returns the sorting option based on two options '1': desc order and '2': asc order
-func getSortingOption(n int) bool {
+func getSortingOption() bool {
+	var n int
+
 	fmt.Println("Size sorting options:\n1. Ascending\n2. Descending")
 
 	for {
@@ -50,13 +60,18 @@ func getSortingOption(n int) bool {
 			} else {
 				rev = false
 			}
+			break
+		} else {
+			fmt.Println("Wrong option")
 		}
-		return rev
 	}
+	return rev
 }
 
-func addFilesToMap(dir string, extension string, filesMap map[int][]string) {
-	// If the extension is "" (not specified) then add all files to the map
+func addFilesToMap(dir string, extension string, filesMap map[int][]map[int]string) {
+	fileNum := 1
+
+	// if the extension is NOT specified, then add all the files to the map
 	if len(extension) == 0 {
 		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -65,13 +80,18 @@ func addFilesToMap(dir string, extension string, filesMap map[int][]string) {
 			if info.IsDir() {
 				return nil
 			}
-			filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
+			filesMap[int(info.Size())] = append(filesMap[int(info.Size())], map[int]string{
+				fileNum: path,
+			})
+			fileNum++
 			return nil
 		})
 		if err != nil {
 			log.Fatal(err)
 		}
-	} else { // If the extension is specified, then add only the files with the specified extension to the map
+
+	} else { // if the extension is specified, then add only the files with the specified extension to the map
+		// fmt.Println("The EXTENSION is:", extension)
 		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				log.Fatal(err)
@@ -79,8 +99,11 @@ func addFilesToMap(dir string, extension string, filesMap map[int][]string) {
 			if info.IsDir() {
 				return nil
 			}
-			if filepath.Ext(path) == "."+extension {
-				filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
+			if filepath.Ext(path) == extension {
+				filesMap[int(info.Size())] = append(filesMap[int(info.Size())], map[int]string{
+					fileNum: path,
+				})
+				fileNum++
 			}
 			return nil
 		})
@@ -90,128 +113,50 @@ func addFilesToMap(dir string, extension string, filesMap map[int][]string) {
 	}
 }
 
-func sortFilesMap(filesMap map[int][]string) []int {
-	var keys []int
-	for k := range filesMap {
-		keys = append(keys, k)
+func sortByFileSize(rev bool, filesMap map[int][]map[int]string) []int {
+	fileSizes := make([]int, 0, len(filesMap))
+
+	for fileSize := range filesMap {
+		fileSizes = append(fileSizes, fileSize)
 	}
+
 	if rev {
-		sort.Sort(sort.Reverse(sort.IntSlice(keys)))
+		sort.Sort(sort.Reverse(sort.IntSlice(fileSizes)))
 	} else {
-		sort.Ints(keys)
+		sort.Sort(sort.IntSlice(fileSizes))
 	}
-	return keys
+
+	// Print the sorted sizes in bytes and afterwards the respective file names:
+	for _, fileSize := range fileSizes {
+		fmt.Println()
+		fmt.Println(fileSize, "bytes")
+		for _, fileNum := range filesMap[fileSize] {
+			for _, fileName := range fileNum {
+				fmt.Println(fileName)
+			}
+		}
+	}
+	return fileSizes
 }
 
-// func checkDuplicateFiles(filesMap map[int][]string, keys []int) {
+func checkDuplicateFiles(fileSizes []int, filesMap map[int][]map[int]string) map[int]map[string][]string {
+	sameHashMap := make(map[int]map[string][]string)
 
-func main() {
-	if len(os.Args) == 1 { // check if the only argument is the program file name 'main.go'
-		fmt.Println("Directory is not specified")
-	} else {
-		var extension string
-		fmt.Println("Enter file format:")
-		fmt.Scanln(&extension)
+	for {
+		var answer string
+		fmt.Println("\nCheck for duplicates?")
+		fmt.Scanln(&answer)
 
-		fmt.Println("Size sorting options:\n1. Ascending\n2. Descending")
-
-		for {
-			var n int
-			fmt.Println("Enter a sorting option:")
-			fmt.Scanln(&n)
-
-			if n == 1 || n == 2 {
-				if n == 1 {
-					rev = true
-				} else {
-					rev = false
-				}
-				break
-			} else {
-				fmt.Println("Wrong option")
-			}
-		}
-
-		filesMap := make(map[int][]string) // create a map to store the file names and their sizes
-
-		dir := strings.Join(os.Args[1:], " ") // the directory is the second command line argument!
-
-		// if the extension is NOT specified, then add all the files to the map
-		if len(extension) == 0 {
-			err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					log.Fatal(err)
-				}
-				if info.IsDir() {
-					return nil
-				}
-				filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
-				return nil
-			})
-			if err != nil {
-				log.Fatal(err)
-			}
-		} else { // if the extension is specified, then add only the files with the specified extension to the map
-			// fmt.Println("The EXTENSION is:", extension)
-			err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					log.Fatal(err)
-				}
-				if info.IsDir() {
-					return nil
-				}
-				if filepath.Ext(path) == "."+extension {
-					// fmt.Println("Reading file:", path, "with extension:", extension)
-					filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
-				}
-				return nil
-			})
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-
-		// Create a slice to sort the filesMap:
-		keys := make([]int, 0, len(filesMap))
-		for k := range filesMap {
-			keys = append(keys, k)
-		}
-
-		// If 'rev' is true, then sort the slice in descending order based on SIZE of the files
-		// Otherwise, sort in ascending order:
-		if rev {
-			sort.Sort(sort.Reverse(sort.IntSlice(keys)))
-		} else {
-			sort.Sort(sort.IntSlice(keys))
-		}
-
-		// Print the size in bytes and afterwards the sorted files:
-		for _, k := range keys {
-			fmt.Println(k, "bytes")
-			for _, v := range filesMap[k] {
-				fmt.Println(v)
-			}
-			fmt.Println()
-		}
-
-		for {
-			var answer string
-			fmt.Println("Check for duplicates?")
-			fmt.Scanln(&answer)
-
-			var sameHashMap = map[int]map[string][]string{} // create a map to store the files with the same size
-
-			if answer == "yes" || answer == "no" {
-				if answer == "yes" {
-					// create a md5 hash with md5.New() and calculate the hash for each file
-					// and store the file name and the hash in a map:
-					for _, k := range keys {
-						for _, v := range filesMap[k] {
-							file, err := os.Open(v)
+		// check if answer is in possibleAns map
+		if _, ok := possibleAns[answer]; ok {
+			if possibleAns[answer] {
+				for _, fileSize := range fileSizes {
+					for _, fileNum := range filesMap[fileSize] {
+						for _, fileName := range fileNum {
+							file, err := os.Open(fileName)
 							if err != nil {
 								log.Fatal(err)
 							}
-							defer file.Close()
 
 							hash := md5.New()
 							if _, err := io.Copy(hash, file); err != nil {
@@ -220,122 +165,126 @@ func main() {
 							hashInBytes := hash.Sum(nil)[:16]
 							hashInString := hex.EncodeToString(hashInBytes)
 
-							if sameHashMap[k] == nil {
-								sameHashMap[k] = make(map[string][]string)
+							if sameHashMap[fileSize] == nil {
+								sameHashMap[fileSize] = make(map[string][]string)
 							}
-							sameHashMap[k][hashInString] = append(sameHashMap[k][hashInString], v)
-						}
-					}
-					// iterate over the map and only print the files that have the same hash:
-					counter := 0
-					i := 0
-					var fileNums []int
-					for _, k := range keys {
-						fmt.Println(k, "bytes")
-						for h, v := range sameHashMap[k] {
-							if len(v) > 1 {
-								fmt.Println("Hash:", h)
-								for _, v2 := range v {
-									c := strconv.Itoa(counter + 1)
-									// update contents of 'v' to become c + ". " + v
-									v[i] = c + ". " + v[i]
-									v2 = c + ". " + v2
-									fmt.Printf("%s\n", v2)
+							sameHashMap[fileSize][hashInString] = append(sameHashMap[fileSize][hashInString], fileName)
 
-									fileNums = append(fileNums, counter+1)
-									counter++
-									i++
-								}
-								i = 0
-								fmt.Println()
-							}
-						}
-					}
-
-					deletedFileSize := 0
-
-					fmt.Println("Delete files?")
-					fmt.Scanln(&answer)
-					if answer == "yes" || answer == "no" {
-						if answer == "yes" {
-							scanner := bufio.NewScanner(os.Stdin)
-							fmt.Println("Enter file numbers to delete:")
-							for {
-								scanner.Scan()
-								line := scanner.Text()
-								x, _ := strconv.Atoi(line)
-
-								if len(line) == 0 {
-									fmt.Println("Wrong format")
-									fmt.Println("Enter file numbers to delete:")
-									continue
-								} else if x == 0 {
-									inputSlice := strings.Split(line, " ")
-									inputSliceInts := make([]int, len(inputSlice))
-									for i, v := range inputSlice {
-										// if v is an integer then append it to the slice
-										if x, err := strconv.Atoi(v); err == nil {
-											inputSliceInts[i] = x
-										} else {
-											fmt.Println("Wrong format")
-											fmt.Println("Enter file numbers to delete:")
-											break
-										}
-									}
-
-									// sort inputSliceInts
-									sort.Ints(inputSliceInts)
-
-									if contains(inputSliceInts, fileNums) {
-										cnt := 0
-										for _, k := range keys {
-											for _, v := range sameHashMap[k] {
-												if len(v) > 1 {
-													for i := 0; i < len(v); i++ {
-														// add to deletedFileSize the size of the file that is being deleted:
-														if cnt == len(inputSliceInts) {
-															break
-														}
-
-														fNum := strings.Split(v[i], ".")
-
-														// if fNum is the same as the inputSliceInts then delete the file:
-														if fNum[0] == strconv.Itoa(inputSliceInts[cnt]) {
-															// to delete the file remove the prefix 1.:
-															fmt.Println("Attempting to DELETE: ", v[i])
-															fName := strings.TrimPrefix(v[i], fNum[0]+". ")
-
-															// get the file size in bytes of 'fName':
-															fileInfo, err := os.Stat(fName)
-															if err != nil {
-																fmt.Println(err)
-															}
-															deletedFileSize += int(fileInfo.Size())
-
-															err = os.Remove(fName)
-															if err != nil {
-																fmt.Println(err)
-															}
-														} else {
-															continue
-														}
-
-														cnt++
-													}
-												}
-											}
-										}
-									}
-									fmt.Println("Total freed up space:", deletedFileSize, "bytes")
-									os.Exit(1)
-								}
+							err = file.Close()
+							if err != nil {
+								return nil
 							}
 						}
 					}
 				}
 			}
+			break
+		} else {
+			// exit the program if we won't check for duplicates
+			os.Exit(1)
 		}
 	}
+	return sameHashMap
+}
+
+func getFilesSameHash(sameHashMap map[int]map[string][]string, fileSizes []int) []int {
+	var fileNums []int
+	counter := 0
+
+	for _, fileSize := range fileSizes {
+		fmt.Println(fileSize, "bytes")
+		for hash, files := range sameHashMap[fileSize] {
+			if len(files) > 1 {
+				fmt.Println("Hash:", hash)
+				for i := 0; i < len(files); i++ {
+					c := strconv.Itoa(counter + 1)
+					// update contents of 'files' to become c + ". " + files
+					files[i] = c + ". " + files[i]
+					fmt.Printf("%s\n", files[i])
+
+					fileNums = append(fileNums, counter+1) // store the duplicate file numbers
+					counter++
+				}
+				fmt.Println()
+			}
+		}
+	}
+	return fileNums
+}
+
+func deleteDuplicates(sameHashMap map[int]map[string][]string, fileSizes []int, fileNums []int) {
+	deletedFileSize := 0
+	var filesToDelete []int
+
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("Enter file numbers to delete:")
+	scanner.Scan()
+	line := scanner.Text()
+
+	for len(line) != 0 || line == "" {
+		splitLine := strings.Split(line, " ")
+
+		if len(filesToDelete) >= len(splitLine) {
+			break
+		}
+		for _, fileNum := range splitLine {
+			// if num is an integer then append it to the slice
+			if num, err := strconv.Atoi(fileNum); err == nil {
+				filesToDelete = append(filesToDelete, num)
+			} else {
+				fmt.Println("Wrong format")
+				fmt.Println("Enter file numbers to delete:")
+				scanner.Scan()
+				line = scanner.Text()
+			}
+		}
+	}
+
+	// sort filesToDelete
+	sort.Ints(filesToDelete)
+
+	if contains(filesToDelete, fileNums) {
+		cnt := 0
+		for _, fileSize := range fileSizes {
+			for _, files := range sameHashMap[fileSize] {
+				if len(files) > 1 {
+					for i := 0; i < len(files); i++ {
+						// add to deletedFileSize the size of the file that is being deleted:
+						if cnt == len(filesToDelete) {
+							break
+						}
+
+						// get the file number by using the split function
+						fileNum := strings.Split(files[i], ".")
+
+						// if fileNum is the same as the filesToDelete then delete the file:
+						if fileNum[0] == strconv.Itoa(filesToDelete[cnt]) {
+							// to delete the file remove the prefix 1.:
+							fileName := strings.TrimPrefix(files[i], fileNum[0]+". ")
+
+							// get the file size in bytes of 'fileName':
+							fileInfo, err := os.Stat(fileName)
+							if err != nil {
+								fmt.Println(err)
+							}
+							deletedFileSize += int(fileInfo.Size())
+
+							err = os.Remove(fileName)
+							if err != nil {
+								fmt.Println(err)
+							}
+						} else {
+							continue
+						}
+
+						cnt++
+					}
+				}
+			}
+		}
+	}
+	fmt.Println("Total freed up space:", deletedFileSize, "bytes")
+	os.Exit(1)
 }
 
 func contains(s []int, e []int) bool {
@@ -347,4 +296,35 @@ func contains(s []int, e []int) bool {
 		}
 	}
 	return false
+}
+
+func main() {
+	// getArgs checks if the only argument is the program name
+	getArgs(os.Args)
+
+	// next we make the user enter the extension of the files we want to check
+	extension := getExtension()
+
+	// next we make the user enter the sorting option
+	rev = getSortingOption()
+
+	// since the directory is the second command line argument, we create 'dir' and store it there:
+	dir := strings.Join(os.Args[1:], " ")
+
+	// next we create a map to store the files size, file number and file name
+	filesMap := make(map[int][]map[int]string)
+	addFilesToMap(dir, extension, filesMap)
+
+	// create a slice to store the file sizes
+	fileSizes := sortByFileSize(rev, filesMap)
+
+	// next we need to check for duplicates and create the md5 hash for each file
+	sameHashMap := checkDuplicateFiles(fileSizes, filesMap)
+
+	// now we need to get the files with the same hash
+	fileNums := getFilesSameHash(sameHashMap, fileSizes)
+
+	// Finally, we delete the duplicate files
+	deleteDuplicates(sameHashMap, fileSizes, fileNums)
+
 }

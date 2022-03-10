@@ -4,3 +4,5 @@ files:
   visible: false
 - name: main.go
   visible: true
+- name: temp_dir/main2.go
+  visible: true
