@@ -3,7 +3,7 @@ package main
 /*
 [Duplicate File Handler - Stage 4/4: Delete them all](https://hyperskill.org/projects/176/stages/908/implement)
 -------------------------------------------------------------------------------
-[Advanced input](https://hyperskill.org/learn/topic/2027
+[Advanced input](https://hyperskill.org/learn/topic/2027)
 */
 
 import (
