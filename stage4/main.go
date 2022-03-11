@@ -1,5 +1,11 @@
 package main
 
+/*
+[Duplicate File Handler - Stage 4/4: Delete them all](https://hyperskill.org/projects/176/stages/908/implement)
+-------------------------------------------------------------------------------
+[Advanced input](https://hyperskill.org/learn/topic/2027
+*/
+
 import (
 	"bufio"
 	"crypto/md5"
@@ -15,12 +21,6 @@ import (
 )
 
 var rev bool // global variable 'rev' to determine the sorting order based on SIZE of the files
-
-// global "SET" possibleAns to check for "yes" or "no" input ONLY.
-var possibleAns = map[string]bool{
-	"yes": true,
-	"no":  false,
-}
 
 func getArgs(args []string) []string {
 	args = os.Args
@@ -47,7 +47,6 @@ func getExtension() string {
 
 func getSortingOption() bool {
 	var n int
-
 	fmt.Println("Size sorting options:\n1. Ascending\n2. Descending")
 
 	for {
@@ -91,7 +90,6 @@ func addFilesToMap(dir string, extension string, filesMap map[int][]map[int]stri
 		}
 
 	} else { // if the extension is specified, then add only the files with the specified extension to the map
-		// fmt.Println("The EXTENSION is:", extension)
 		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				log.Fatal(err)
@@ -139,7 +137,7 @@ func sortByFileSize(rev bool, filesMap map[int][]map[int]string) []int {
 	return fileSizes
 }
 
-func checkDuplicateFiles(fileSizes []int, filesMap map[int][]map[int]string) map[int]map[string][]string {
+func findDuplicateFiles(fileSizes []int, filesMap map[int][]map[int]string) map[int]map[string][]string {
 	sameHashMap := make(map[int]map[string][]string)
 
 	for {
@@ -147,9 +145,8 @@ func checkDuplicateFiles(fileSizes []int, filesMap map[int][]map[int]string) map
 		fmt.Println("\nCheck for duplicates?")
 		fmt.Scanln(&answer)
 
-		// check if answer is in possibleAns map
-		if _, ok := possibleAns[answer]; ok {
-			if possibleAns[answer] {
+		if answer == "yes" || answer == "no" {
+			if answer == "yes" {
 				for _, fileSize := range fileSizes {
 					for _, fileNum := range filesMap[fileSize] {
 						for _, fileName := range fileNum {
@@ -157,20 +154,19 @@ func checkDuplicateFiles(fileSizes []int, filesMap map[int][]map[int]string) map
 							if err != nil {
 								log.Fatal(err)
 							}
-
+							// Create a new hash object
 							hash := md5.New()
-							if _, err := io.Copy(hash, file); err != nil {
+							if _, err = io.Copy(hash, file); err != nil {
 								log.Fatal(err)
 							}
-							hashInBytes := hash.Sum(nil)[:16]
-							hashInString := hex.EncodeToString(hashInBytes)
+							hashInString := hex.EncodeToString(hash.Sum(nil)[:16])
 
 							if sameHashMap[fileSize] == nil {
 								sameHashMap[fileSize] = make(map[string][]string)
 							}
 							sameHashMap[fileSize][hashInString] = append(sameHashMap[fileSize][hashInString], fileName)
 
-							err = file.Close()
+							err = file.Close() // remember to close the file! otherwise, we won't be able to delete
 							if err != nil {
 								return nil
 							}
@@ -180,16 +176,17 @@ func checkDuplicateFiles(fileSizes []int, filesMap map[int][]map[int]string) map
 			}
 			break
 		} else {
-			// exit the program if we won't check for duplicates
-			os.Exit(1)
+			os.Exit(1) // exit the program if we won't check for duplicates
 		}
 	}
 	return sameHashMap
 }
 
-func getFilesSameHash(sameHashMap map[int]map[string][]string, fileSizes []int) []int {
+// We update the previous getDupFiles function to: getDupFileNums
+// it returns an array that contains all the duplicate file numbers
+func getDupFileNums(sameHashMap map[int]map[string][]string, fileSizes []int) []int {
 	var fileNums []int
-	counter := 0
+	var counter int
 
 	for _, fileSize := range fileSizes {
 		fmt.Println(fileSize, "bytes")
@@ -198,7 +195,7 @@ func getFilesSameHash(sameHashMap map[int]map[string][]string, fileSizes []int) 
 				fmt.Println("Hash:", hash)
 				for i := 0; i < len(files); i++ {
 					c := strconv.Itoa(counter + 1)
-					// update contents of 'files' to become c + ". " + files
+					// update contents of 'files' to contain the file number like "1. abc.py"
 					files[i] = c + ". " + files[i]
 					fmt.Printf("%s\n", files[i])
 
@@ -212,8 +209,7 @@ func getFilesSameHash(sameHashMap map[int]map[string][]string, fileSizes []int) 
 	return fileNums
 }
 
-func deleteDuplicates(sameHashMap map[int]map[string][]string, fileSizes []int, fileNums []int) {
-	deletedFileSize := 0
+func readDupFileNums() []int {
 	var filesToDelete []int
 
 	scanner := bufio.NewScanner(os.Stdin)
@@ -239,26 +235,28 @@ func deleteDuplicates(sameHashMap map[int]map[string][]string, fileSizes []int, 
 			}
 		}
 	}
+	sort.Ints(filesToDelete) // remember to sort files in ascending order before returning!
+	return filesToDelete
+}
 
-	// sort filesToDelete
-	sort.Ints(filesToDelete)
+func deleteDupFiles(sameHashMap map[int]map[string][]string, fileSizes []int, dupFileNums []int, filesToDelete []int) {
+	var deletedFileSize int
 
-	if contains(filesToDelete, fileNums) {
-		cnt := 0
+	if contains(filesToDelete, dupFileNums) {
+		var counter int
 		for _, fileSize := range fileSizes {
 			for _, files := range sameHashMap[fileSize] {
 				if len(files) > 1 {
 					for i := 0; i < len(files); i++ {
 						// add to deletedFileSize the size of the file that is being deleted:
-						if cnt == len(filesToDelete) {
+						if counter == len(filesToDelete) {
 							break
 						}
-
 						// get the file number by using the split function
 						fileNum := strings.Split(files[i], ".")
 
 						// if fileNum is the same as the filesToDelete then delete the file:
-						if fileNum[0] == strconv.Itoa(filesToDelete[cnt]) {
+						if fileNum[0] == strconv.Itoa(filesToDelete[counter]) {
 							// to delete the file remove the prefix 1.:
 							fileName := strings.TrimPrefix(files[i], fileNum[0]+". ")
 
@@ -274,10 +272,9 @@ func deleteDuplicates(sameHashMap map[int]map[string][]string, fileSizes []int, 
 								fmt.Println(err)
 							}
 						} else {
-							continue
+							break
 						}
-
-						cnt++
+						counter++
 					}
 				}
 			}
@@ -287,6 +284,8 @@ func deleteDuplicates(sameHashMap map[int]map[string][]string, fileSizes []int, 
 	os.Exit(1)
 }
 
+// Contains is a function to help us validate if the files we read from the input to be deleted
+// are actually within the fileNums slice
 func contains(s []int, e []int) bool {
 	for _, a := range s {
 		for _, b := range e {
@@ -299,32 +298,33 @@ func contains(s []int, e []int) bool {
 }
 
 func main() {
-	// getArgs checks if the only argument is the program name
+	// The first step is to get the command-line arguments passed to our program:
 	getArgs(os.Args)
-
-	// next we make the user enter the extension of the files we want to check
-	extension := getExtension()
-
-	// next we make the user enter the sorting option
-	rev = getSortingOption()
-
-	// since the directory is the second command line argument, we create 'dir' and store it there:
+	// Since the directory is the second command line argument, we create 'dir' and store it there:
 	dir := strings.Join(os.Args[1:], " ")
 
-	// next we create a map to store the files size, file number and file name
+	// Take as an input the extension of files to check; if nothing is entered we check all files in the dir.
+	extension := getExtension()
+
+	// Take as an input the sorting option - 1 for ascending; 2 for descending.
+	rev = getSortingOption()
+
+	// Next we create a map to store the files size, file number and file name
 	filesMap := make(map[int][]map[int]string)
-	addFilesToMap(dir, extension, filesMap)
+	addFilesToMap(dir, extension, filesMap) // we add the files + their info to the map
 
-	// create a slice to store the file sizes
-	fileSizes := sortByFileSize(rev, filesMap)
+	// We create a slice to store the file sizes:
+	var fileSizes []int = sortByFileSize(rev, filesMap)
 
-	// next we need to check for duplicates and create the md5 hash for each file
-	sameHashMap := checkDuplicateFiles(fileSizes, filesMap)
+	// Next we need to create the sameHashMap; it will contain all the files that have the same hash.
+	var sameHashMap map[int]map[string][]string = findDuplicateFiles(fileSizes, filesMap)
 
-	// now we need to get the files with the same hash
-	fileNums := getFilesSameHash(sameHashMap, fileSizes)
+	// We create a slice to contain the number of the files that have the same hash (duplicates)
+	var dupFileNums []int = getDupFileNums(sameHashMap, fileSizes)
 
-	// Finally, we delete the duplicate files
-	deleteDuplicates(sameHashMap, fileSizes, fileNums)
+	// We take as an input the file numbers to delete and store them in the filesToDelete slice
+	var filesToDelete []int = readDupFileNums()
 
+	// Finally, we delete the files that have the same hash (duplicates)
+	deleteDupFiles(sameHashMap, fileSizes, dupFileNums, filesToDelete)
 }
