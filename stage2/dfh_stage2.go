@@ -8,7 +8,7 @@ package main
 [Functions](https://hyperskill.org/learn/topic/1750)
 [Function decomposition](https://hyperskill.org/learn/topic/1893)
 [Maps](https://hyperskill.org/learn/topic/1824)
-[Operations with maps)[https://hyperskill.org/learn/topic/1850)
+[Operations with maps](https://hyperskill.org/learn/topic/1850)
 [Sorting slices] - PENDING UPLOAD TO HYPERSKILL
 */
 
