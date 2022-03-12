@@ -55,16 +55,13 @@ func getSortingOption() bool {
 func addFilesToMap(dir string, extension string, filesMap map[int][]string) error {
 	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 		if info.IsDir() {
 			return nil
 		}
 		if extension == "" || filepath.Ext(path) == extension {
 			filesMap[int(info.Size())] = append(filesMap[int(info.Size())], path)
-		}
-		if err != nil {
-			return err
 		}
 		return nil
 	})
