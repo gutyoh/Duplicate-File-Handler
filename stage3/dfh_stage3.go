@@ -3,6 +3,7 @@ package main
 /*
 [Duplicate File Handler - Stage 3/4: What's that hash about?](https://hyperskill.org/projects/176/stages/907/implement)
 -------------------------------------------------------------------------------
+[Public and private scopes](https://hyperskill.org/learn/topic/1894)
 [Working with files](https://hyperskill.org/learn/topic/1768)
 [Parsing data from strings](https://hyperskill.org/learn/topic/1955)
 [Hashing `crypto/md5` package] - PENDING
@@ -20,8 +21,6 @@ import (
 	"sort"
 	"strconv"
 )
-
-var rev bool // global variable 'rev' to determine the sorting order based on SIZE of the files
 
 func getExtension() string {
 	var extension string
@@ -91,8 +90,11 @@ func sortByFileSize(rev bool, filesMap map[int][]string) []int {
 	return fileSizes
 }
 
-func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) map[int]map[string][]string {
-	sameHashMap := make(map[int]map[string][]string)
+// FileHashMap is a type that uses the hash as a key and a slice of duplicate fileNames as a value
+type FileHashMap map[string][]string
+
+func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) (map[int]FileHashMap, error) {
+	sameHashMap := make(map[int]FileHashMap)
 
 	for {
 		var answer string
@@ -109,8 +111,9 @@ func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) map[int]map[
 					}
 
 					hash := md5.New()
-					if _, err = io.Copy(hash, file); err != nil {
-						log.Fatal(err)
+					_, err = io.Copy(hash, file)
+					if err != nil {
+						return nil, err
 					}
 					hashInString := hex.EncodeToString(hash.Sum(nil)[:16])
 
@@ -121,11 +124,11 @@ func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) map[int]map[
 
 					err = file.Close() // remember to close the file! otherwise, we won't be able to delete
 					if err != nil {
-						return nil
+						return nil, err
 					}
 				}
 			}
-			return sameHashMap
+			return sameHashMap, nil
 
 		case "no":
 			os.Exit(1) // exit the program if we won't check for duplicates
@@ -136,7 +139,7 @@ func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) map[int]map[
 	}
 }
 
-func getDupFiles(sameHashMap map[int]map[string][]string, fileSizes []int) {
+func getDupFiles(sameHashMap map[int]FileHashMap, fileSizes []int) {
 	var counter int
 
 	for _, fileSize := range fileSizes {
@@ -170,11 +173,11 @@ func main() {
 	extension := getExtension()
 
 	// Take as an input the sorting option - 1 for ascending; 2 for descending.
-	rev = getSortingOption()
+	rev := getSortingOption()
 
 	// Next we create a map to store the files size, file number and file name
 	filesMap := make(map[int][]string)
-	// Check for errors and if there is none add the files + their info to the map
+	// Check for errors and if there is none add the files + their info to the filesMap
 	err := addFilesToMap(dir, extension, filesMap)
 	if err != nil {
 		log.Fatal(err)
@@ -184,7 +187,12 @@ func main() {
 	var fileSizes []int = sortByFileSize(rev, filesMap)
 
 	// Next we need to create the sameHashMap; it will contain all the files that have the same hash.
-	var sameHashMap map[int]map[string][]string = findDuplicateFiles(fileSizes, filesMap)
+	sameHashMap := make(map[int]FileHashMap)
+	// Check for errors and if there is none add the file size, hash and duplicate files to the sameHashMap
+	sameHashMap, err = findDuplicateFiles(fileSizes, filesMap)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Finally, we call getDupFiles; it prints all the files that have the same hash:
 	getDupFiles(sameHashMap, fileSizes)

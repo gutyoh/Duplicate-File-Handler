@@ -4,7 +4,6 @@ package main
 [Duplicate File Handler - Stage 2/4: How much does it weigh?](https://hyperskill.org/projects/176/stages/906/implement)
 -------------------------------------------------------------------------------
 [Loops](https://hyperskill.org/learn/topic/1531)
-[Public and private scopes](https://hyperskill.org/learn/topic/1894)
 [Functions](https://hyperskill.org/learn/topic/1750)
 [Function decomposition](https://hyperskill.org/learn/topic/1893)
 [Maps](https://hyperskill.org/learn/topic/1824)
@@ -19,8 +18,6 @@ import (
 	"path/filepath"
 	"sort"
 )
-
-var rev bool // global variable 'rev' to determine the sorting order based on SIZE of the files
 
 func getExtension() string {
 	var extension string
@@ -103,7 +100,7 @@ func main() {
 	extension := getExtension()
 
 	// Take as an input the sorting option - 1 for ascending; 2 for descending.
-	rev = getSortingOption()
+	rev := getSortingOption()
 
 	// Next we create a map to store the files size, file number and file name
 	filesMap := make(map[int][]string)
