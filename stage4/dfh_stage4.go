@@ -106,7 +106,7 @@ func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) (map[int]Fil
 				for _, fileName := range filesMap[fileSize] {
 					file, err := os.Open(fileName)
 					if err != nil {
-						log.Fatal(err)
+						return nil, err
 					}
 
 					hash := md5.New()
