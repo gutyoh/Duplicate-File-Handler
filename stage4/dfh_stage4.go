@@ -10,7 +10,6 @@ package main
 import (
 	"bufio"
 	"crypto/md5"
-	"encoding/hex"
 	"fmt"
 	"io"
 	"log"
@@ -114,7 +113,7 @@ func findDuplicateFiles(fileSizes []int, filesMap map[int][]string) (map[int]Fil
 					if err != nil {
 						return nil, err
 					}
-					hashInString := hex.EncodeToString(hash.Sum(nil)[:16])
+					hashInString := fmt.Sprintf("%x", hash.Sum(nil)[:16])
 
 					if sameHashMap[fileSize] == nil {
 						sameHashMap[fileSize] = make(map[string][]string)
